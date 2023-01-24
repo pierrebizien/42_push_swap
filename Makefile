@@ -1,4 +1,4 @@
-SRCS = main.c gnl/get_next_line.c gnl/get_next_line_utils.c ft_move.c ft_lst.c ft_print_list.c 
+SRCS = ft_move2.c main.c gnl/get_next_line.c gnl/get_next_line_utils.c ft_move.c ft_lst.c ft_print_list.c 
 
 NAME = push_swap
 
@@ -11,14 +11,14 @@ LIBRARY = -I. -I ./ft_printf -I ./libft -L ./libft -lftprintf -L ./ft_printf -lf
 CFLAGS = -Wall -Werror -Wextra
 
 .c.o:
-	${GCC} ${CFLAGS} -c ${LIBRARY} $< -o ${<:.c=.o}
+	${GCC} -g ${CFLAGS} -c ${LIBRARY}  $< -o ${<:.c=.o}
 
 all: ${NAME}
 
 ${NAME}: ${OBJS}
 	$(MAKE) -C ft_printf
 	$(MAKE) -C libft
-	${GCC} -o ${NAME} ${OBJS} ${LIBRARY}
+	${GCC} -g -o ${NAME} ${OBJS} ${LIBRARY} 
 
 clean:
 	rm -f ${OBJS}
