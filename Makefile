@@ -1,4 +1,4 @@
-SRCS = main.c gnl/get_next_line.c gnl/get_next_line_utils.c ft_move.c
+SRCS = main.c gnl/get_next_line.c gnl/get_next_line_utils.c ft_move.c ft_lst.c ft_print_list.c 
 
 NAME = push_swap
 
