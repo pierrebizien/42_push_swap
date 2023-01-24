@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:35:10 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/24 13:51:05 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:13:00 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void    ft_print_a_b(t_elem *list_a, t_elem *list_b)
         if (begin_b)
             begin_b = begin_b->next;
     }
+    ft_printf("----------\n");
 }
