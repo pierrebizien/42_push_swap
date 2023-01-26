@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:58:32 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/26 14:30:11 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/26 18:35:09 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct  s_data
     int median;
     int quart;
     int ac;
+    int thres;
 }               t_data;
 
 typedef struct  s_elem
