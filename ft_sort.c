@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:00:55 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/26 17:07:32 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/26 18:44:06 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ void	ft_five_b(t_elem **list_a, t_elem **list_b, t_data *data)
 
 void	ft_ten(t_elem **list_a, t_elem **list_b, t_data *data)
 {
-	fprintf(stderr, "hey");
+	// fprintf(stderr, "hey");
 	if(ft_is_sorted(*list_a))
 		return ;
 	ft_sep_med(list_a, list_b, data);
@@ -264,36 +264,82 @@ int	ft_abs(int x)
 	}
 	return (x);
 }
+
+int		ft_find_loc(t_elem *list_a, int index)
+{
+	int	i;
+	int loc1;
+	int loc2;
+	static int p_index = 0;
+	
+	if (p_index == 1)
+		return (p_index = 0, ft_find_loc(list_a, index - 1));
+	i = 0;
+	while (list_a)
+	{
+		if (list_a->ind == index)
+			loc1 = i;
+		if (list_a->ind == index + 1)
+			loc2 = i;
+		i++;
+		list_a = list_a->next;
+	}
+	if (ft_abs(loc1 - (ft_lst_size(list_a) / 2)) >  loc2 - (ft_lst_size(list_a) / 2) + 1)
+	{
+		p_index = 1;
+		return (loc2);
+	}
+	return (loc1);
+}
+
 void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data)
 {
-	int index;
-	int count_2;
+	int loc;
+	// int count_2;
+	int	index;
 
-	count_2 = 0;
+	// count_2 = 0;
+	loc = 0;
 	index = 0;
-	while (ft_lst_size(*list_a) > 5)
+	while (ft_lst_size(*list_a) > 3)
 	{
-		index = ft_find_best_min(*list_a);
-		fprintf(stderr, "INDEX %d \n", index);
-		if (index <= ft_lst_size(*list_a) / 2)
+		loc = ft_find_loc(*list_a, index);
+		// fprintf(stderr, "LOC VAUT %d et COUNT VAUT %d et INDEX VAUT %d \n", loc, 5, index);
+		if (loc <= ft_lst_size(*list_a) / 2)
 		{
-			ft_loop_ra(list_a, index);
+			ft_loop_ra(list_a, loc);
 		}
 		else
-		{
-			ft_loop_rra(list_a, ft_lst_size(*list_a) - index);
-		}
-		ft_print_a_b(*list_a, *list_b);
+			ft_loop_rra(list_a, ft_lst_size(*list_a) - loc);
 		ft_pb(list_a, list_b);
-		count_2++;
-		if (count_2 == 2)
+		// ft_print_a_b(*list_a, *list_b);
+		// count_2++;
+		if (ft_lst_size(*list_b) > 1)
 		{
 			if ((*list_b)->val < (*list_b)->next->val && ft_abs((*list_b)->ind - (*list_b)->next->ind) == 1)
 				ft_sb(list_b, 0);
-			count_2 = 0;
+			// count_2 = 0;
 		}
 		index++;
 	}
-	ft_five(list_a, list_b, data);
+	ft_three(list_a);
+	(void)data;
 	ft_loop_pa(list_a, list_b, ft_lst_size(*list_b));
+	// fprintf(stderr, "HEEEY");
+}
+
+void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data)
+{
+	int	i;
+
+	i = 1;
+	while (data->thres * i < (data->ac - 1))
+	{
+		if ((*list_a)->ind < data->thres * i)
+			//PARTIR DE LA MEDIANE ET REGARDER GROUPE DU DESSUS ET DU DESSOUS UNE FOIS QUE REMPLI ON PASSE AU GROUPE D'APRES		
+	
+
+		i++;
+	}
+	
 }
