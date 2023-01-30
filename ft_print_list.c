@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 13:35:10 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 13:32:27 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 16:44:28 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    ft_print_a_b(t_elem *list_a, t_elem *list_b)
     while (begin_a || begin_b)
     {
         if (!begin_a)
-            ft_printf("A:\t\t| B:\t\t %d\n", begin_b->val);
+            ft_printf("A:\t\t| B:\t%d\t ind %d\n", begin_b->val, begin_b->ind);
         else if (!begin_b)
             ft_printf("A:\t%d\t| B:\t\t\n", begin_a->val);
         else

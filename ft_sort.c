@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:00:55 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 14:10:30 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 18:36:37 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,31 @@ void	ft_loop_ra(t_elem **list_a, int nb)
 	}
 }
 
+void	ft_loop_rb(t_elem **list_a, int nb)
+{
+	int i;
+	
+	i = 0;
+	while (i < nb)
+	{
+		ft_rb(list_a, 0);
+		i++;
+	}
+}
+
 void	ft_loop_rra(t_elem **list_a, int nb)
+{
+	int i;
+	
+	i = 0;
+	while (i < nb)
+	{
+		ft_rra(list_a, 0);
+		i++;
+	}
+}
+
+void	ft_loop_rrb(t_elem **list_a, int nb)
 {
 	int i;
 	
@@ -346,17 +370,24 @@ int find_b_gap2(t_elem *list_a, int a, int b)
 {
 	int	size;
 	int tmpa;
-	int	tmpb;	
-
+	int	tmpb;		
+	
+	if (a == -1 && b == -1)
+		return (0);
+	if (a == -1)
+		return (b);
+	if (b == -1)
+		return (a);
 	size = ft_lst_size(list_a);
-	if (a < ft_abs(size - a))
+	if (a <= ft_abs(size - a) + 1)
 		tmpa = a;
 	else 
 		tmpa = ft_abs(size - a);
-	if (b < ft_abs(size - b))
+	if (b <= ft_abs(size - b) + 1)
 		tmpb = b;
 	else
-		tmpb = ft_abs(size - b);
+		tmpb = ft_abs(size - b) + 1;
+	// fprintf(stderr, "size vaut %d a vaut %d, b vaut %d, temp a vaut %d et temp b vaut %d\n",size, a, b, tmpa, tmpb);
 	if (tmpa > tmpb)
 		return (b);
 	else
@@ -380,7 +411,6 @@ int	ft_find_b_loc_1(t_elem *list_a, t_data *data, int sens, int i)
 	
 	while (list_a)
 	{
-		fprintf(stderr, "list_a ind vaut  %d, data size aut %d et expr vaut %d \n", list_a->ind, data->size / 2, ((data->size / 2) + (data->thres * i)));
 		if (list_a->ind > data->size / 2 && list_a->ind <= ((data->size / 2) + (data->thres * i)))
 		{
 			if (ft_b_gap(list_a, j, data) < gap)
@@ -411,6 +441,7 @@ int	ft_find_b_loc_2(t_elem *list_a, t_data *data, int sens, int i)
 	{
 		if (list_a->ind <= data->size / 2 && list_a->ind > ((data->size / 2) - (data->thres * i)))
 		{
+			// fprintf(stderr, "LOC2 on rentre avec ind qui vaut %d j vaut %d\n", list_a->ind, j);
 			if (ft_b_gap(list_a, j, data) < gap)
 			{
 				gap = ft_b_gap(list_a, j, data);
@@ -420,6 +451,7 @@ int	ft_find_b_loc_2(t_elem *list_a, t_data *data, int sens, int i)
 		list_a = list_a->next;
 		j++;
 	}
+	// fprintf(stderr, "LOC VAUT %d\n", loc);
 	return (loc);
 }
 
@@ -431,7 +463,7 @@ void	ft_push_loc(t_elem **list_a, int loc, t_elem **list_b)
 	(void)list_a;
 	size  = ft_lst_size(*list_a);
 	(void)size;
-	ft_print_a_b(*list_a, *list_b);
+	// ft_print_a_b(*list_a, *list_b);
 
 	if (loc >= size / 2)
 		ft_loop_rra(list_a, size - loc + 1);
@@ -440,22 +472,97 @@ void	ft_push_loc(t_elem **list_a, int loc, t_elem **list_b)
 	ft_pb(list_a, list_b);
 }
 
+void	ft_push_loc2(t_elem **list_a, int loc, t_elem **list_b)
+{
+	int size;
+
+	size  = ft_lst_size(*list_b);
+	(void)size;
+	// ft_print_a_b(*list_a, *list_b);
+
+	if (loc >= size / 2)
+		ft_loop_rrb(list_b, size - loc + 1);
+	else
+		ft_loop_rb(list_b, loc - 1);
+	ft_pa(list_a, list_b);
+}
+
+int	ft_find_loc_2(t_elem **list_b, int index)
+{
+	t_elem *tmp;
+	int	i;
+
+	i = 1;
+	tmp = *list_b;
+	while (tmp)
+	{
+		if (tmp->ind == index)
+			return (i);
+		tmp = tmp->next;
+		i++;
+	}
+	return (-1);
+	
+}
+
+void	ft_send_home(t_elem **list_a, t_elem **list_b, t_data *data)
+{
+	int	i;
+	int	loc_h;
+	int	loc_l;
+	int	j;
+	
+	i = data->size;
+	while (i > 1)
+	{
+		j = 1;
+		ft_print_a_b(*list_a, *list_b);
+		loc_h = ft_find_loc_2(list_b, i);
+		loc_l = ft_find_loc_2(list_b, i - 1);
+		fprintf(stderr, "loc_h vaut %d et loc_l vaut %d\n", loc_h, loc_l);
+		while (j < loc_h)
+		{
+			if (loc_h <= ft_lst_size(*list_b) / 2)
+				ft_rb(list_b, 0);
+			else
+				ft_rrb(list_b, 0);
+			if ((*list_b)->ind == loc_l)
+				ft_pa(list_a, list_b);
+			j++;
+		}
+		ft_print_a_b(*list_a, *list_b);
+		ft_pa(list_a, list_b);
+		if ((*list_a)->next && (*list_a)->ind > (*list_a)->next->ind)
+			ft_sa(list_a, 0);
+		i--;
+	}
+}
+
 void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data)
 {
 	int	i;
+	int	j;
 	int	loc1;
 	int	loc2;
-	// int	ind;
-	t_elem *tmp;
 
 	i = 1;
-	(void)list_b;
-	tmp = (*list_a);
-	// while ((*list_a))
-	// {
-		loc1 = ft_find_b_loc_1(tmp, data, 1, i);
-		loc2 = ft_find_b_loc_2(tmp, data, -1, i);
-		fprintf(stderr, "ind 1 %d ind 2 %d BG vaut %d\n", loc1, loc2, find_b_gap2(*list_a, loc1, loc2));
+	j = 1;
+	loc1 = 0;
+	loc2 = 0;
+	while (loc1 != -1 || loc2 != -1)
+	{
+		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
+		if (loc1 == -1 && i < (data->size / data->thres) / 2)
+		{
+			i++;
+			loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
+		}
+		loc2 = ft_find_b_loc_2(*list_a, data, -1, j);
+		if (loc2 == -1 && j < (data->size / data->thres) / 2)
+		{
+			j++;
+			loc2 = ft_find_b_loc_2(*list_a, data, -1, j);
+		}
 		if (find_b_gap2(*list_a, loc1, loc2) == loc1)
 			ft_push_loc(list_a, loc1, list_b);
 		else if (find_b_gap2(*list_a, loc1, loc2) == loc2)
@@ -463,28 +570,6 @@ void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data)
 			ft_push_loc(list_a, loc2, list_b);
 			ft_rb(list_b, 0);
 		}
-		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
-		loc2 = ft_find_b_loc_2(*list_a, data, -1, i);
-		// fprintf(stderr, "ind 1 %d ind 2 %d BG vaut %d\n", loc1, loc2, find_b_gap2(*list_a, loc1, loc2));
-		if (find_b_gap2(*list_a, loc1, loc2) == loc1)
-			ft_push_loc(list_a, loc1, list_b);
-		else if (find_b_gap2(*list_a, loc1, loc2) == loc2)
-		{
-			ft_push_loc(list_a, loc2, list_b);
-			ft_rb(list_b, 0);
-		}
-
-		i++;
-		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
-		loc2 = ft_find_b_loc_2(*list_a, data, -1, i);
-		fprintf(stderr, "ind 1 %d ind 2 %d BG vaut %d\n", loc1, loc2, find_b_gap2(*list_a, loc1, loc2));
-	// // 	
-	// //if (BLABLA)
-	// 	ind = 
-	// 	push
-	// 	si ind2 alors rra
-	// if (*list_a)
-	// 	(*list_a) = (*list_a)->next;
-	// }
-	// (*list_a) = tmp;
+	}
+	ft_send_home(list_a, list_b, data);
 }

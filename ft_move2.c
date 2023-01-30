@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:37:05 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/24 16:07:58 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 15:54:35 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_rb(t_elem **list_b, int rr)
 	
 	last = *list_b;
 	tmp = (*list_b)->next;
+	if (ft_lst_size(*list_b) <= 1)
+		return ;
 	while (last->next)
 	{
 		last = last->next;
@@ -61,6 +63,8 @@ void	ft_rra(t_elem **list_a, int rrr)
 	t_elem *tmp;
 
 	last = *list_a;
+	if (ft_lst_size(*list_a) < 2)
+		return ;
 	while (last->next->next)
 	{
 		last = last->next;

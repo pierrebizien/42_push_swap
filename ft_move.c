@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:24:14 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/24 16:12:03 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 18:31:10 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_pa(t_elem **list_a, t_elem **list_b)
 {
     t_elem	*tmp_a;
     
-    if (!list_b)
+    if (!(*list_b))
         return ;
     tmp_a = (*list_b)->next;
 	if (list_a)
