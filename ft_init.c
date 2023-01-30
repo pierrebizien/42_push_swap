@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:46:13 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/26 16:52:57 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 10:45:17 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,25 @@ int	ft_median(t_elem *list_a, int ac)
 		step = val;
 	}
 	if (ac % 2 == 1)
-		return (val + 1);
+		return(val + 1);
 	else
-		return (val);
+		return(val);
 }
+
+// void	ft_med_ind(t_elem *list_a, t_data *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < data->ac - 1)
+// 	{
+// 		if (list_a->val == data->median)
+// 			data->med_ind = i + 1;
+// 		i++;
+// 		list_a = list_a->next;
+// 	}
+	
+// }
 
 int	ft_quart(t_elem *list_a, int ac)
 {
