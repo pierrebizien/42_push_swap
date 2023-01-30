@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:00 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 14:06:19 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 18:28:03 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ int main(int ac, char **av)
 	// if (ac < 20)
 	// 	return (ft_5_to_19(&begin_a, &begin_b, &data), 0);
 	// else
+	
 	ft_hundred(&begin_a, &begin_b, &data);
-	// ft_print_a_b(begin_a, begin_b);
-	// ft_loop_rra(&begin_a, 7);
 	ft_print_a_b(begin_a, begin_b);
+	// ft_loop_rra(&begin_a, 7);
+	// ft_print_a_b(begin_a, begin_b);
+	// fprintf(stderr, "Thes vaut %d\n", data.thres);
 	return (0);
 }

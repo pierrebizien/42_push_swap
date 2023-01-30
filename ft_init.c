@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:46:13 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 10:45:17 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 15:35:21 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	ft_gen_index(t_elem **list_a, t_data *data)
 			(*list_a) = (*list_a)->next;
 		}
 		*list_a = tmp;
-		ft_set_index(list_a, index, loc);
+		ft_set_index(list_a, index + 1, loc);
 		index++;
 	}
 }
