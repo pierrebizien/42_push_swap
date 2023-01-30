@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:00:55 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/26 18:44:06 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/30 14:10:30 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,18 +328,163 @@ void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data)
 	// fprintf(stderr, "HEEEY");
 }
 
+int	ft_b_gap(t_elem *list_a, int j, t_data *data)
+{
+	(void)list_a;
+	
+	if (ft_abs(j) < ft_abs(data->size - j))
+	{
+		return (j);
+	}
+	else
+	{
+		return (ft_abs(data->size - j));
+	}
+}
+
+int find_b_gap2(t_elem *list_a, int a, int b)
+{
+	int	size;
+	int tmpa;
+	int	tmpb;	
+
+	size = ft_lst_size(list_a);
+	if (a < ft_abs(size - a))
+		tmpa = a;
+	else 
+		tmpa = ft_abs(size - a);
+	if (b < ft_abs(size - b))
+		tmpb = b;
+	else
+		tmpb = ft_abs(size - b);
+	if (tmpa > tmpb)
+		return (b);
+	else
+		return (a);
+		
+	
+}
+
+int	ft_find_b_loc_1(t_elem *list_a, t_data *data, int sens, int i)
+{
+	int	j;
+	int loc;
+	int gap;
+
+	j = 0;
+	loc = -1;
+	(void)sens;
+	(void)data;
+	(void)i;
+	gap = INT_MAX;
+	
+	while (list_a)
+	{
+		fprintf(stderr, "list_a ind vaut  %d, data size aut %d et expr vaut %d \n", list_a->ind, data->size / 2, ((data->size / 2) + (data->thres * i)));
+		if (list_a->ind > data->size / 2 && list_a->ind <= ((data->size / 2) + (data->thres * i)))
+		{
+			if (ft_b_gap(list_a, j, data) < gap)
+			{
+				gap = ft_b_gap(list_a, j, data);
+				loc = j + 1;
+			}
+		}
+		list_a = list_a->next;
+		j++;
+	}
+	return (loc);
+}
+
+int	ft_find_b_loc_2(t_elem *list_a, t_data *data, int sens, int i)
+{
+	int	j;
+	int loc;
+	int gap;
+
+	j = 0;
+	loc = -1;
+	(void)sens;
+	(void)data;
+	(void)i;
+	gap = INT_MAX;
+	while (list_a)
+	{
+		if (list_a->ind <= data->size / 2 && list_a->ind > ((data->size / 2) - (data->thres * i)))
+		{
+			if (ft_b_gap(list_a, j, data) < gap)
+			{
+				gap = ft_b_gap(list_a, j, data);
+				loc = j + 1;
+			}
+		}
+		list_a = list_a->next;
+		j++;
+	}
+	return (loc);
+}
+
+void	ft_push_loc(t_elem **list_a, int loc, t_elem **list_b)
+{
+	int size;
+	(void)list_b;
+	(void)loc;
+	(void)list_a;
+	size  = ft_lst_size(*list_a);
+	(void)size;
+	ft_print_a_b(*list_a, *list_b);
+
+	if (loc >= size / 2)
+		ft_loop_rra(list_a, size - loc + 1);
+	else
+		ft_loop_ra(list_a, loc - 1);
+	ft_pb(list_a, list_b);
+}
+
 void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data)
 {
 	int	i;
+	int	loc1;
+	int	loc2;
+	// int	ind;
+	t_elem *tmp;
 
 	i = 1;
-	while (data->thres * i < (data->ac - 1))
-	{
-		if ((*list_a)->ind < data->thres * i)
-			//PARTIR DE LA MEDIANE ET REGARDER GROUPE DU DESSUS ET DU DESSOUS UNE FOIS QUE REMPLI ON PASSE AU GROUPE D'APRES		
-	
+	(void)list_b;
+	tmp = (*list_a);
+	// while ((*list_a))
+	// {
+		loc1 = ft_find_b_loc_1(tmp, data, 1, i);
+		loc2 = ft_find_b_loc_2(tmp, data, -1, i);
+		fprintf(stderr, "ind 1 %d ind 2 %d BG vaut %d\n", loc1, loc2, find_b_gap2(*list_a, loc1, loc2));
+		if (find_b_gap2(*list_a, loc1, loc2) == loc1)
+			ft_push_loc(list_a, loc1, list_b);
+		else if (find_b_gap2(*list_a, loc1, loc2) == loc2)
+		{
+			ft_push_loc(list_a, loc2, list_b);
+			ft_rb(list_b, 0);
+		}
+		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
+		loc2 = ft_find_b_loc_2(*list_a, data, -1, i);
+		// fprintf(stderr, "ind 1 %d ind 2 %d BG vaut %d\n", loc1, loc2, find_b_gap2(*list_a, loc1, loc2));
+		if (find_b_gap2(*list_a, loc1, loc2) == loc1)
+			ft_push_loc(list_a, loc1, list_b);
+		else if (find_b_gap2(*list_a, loc1, loc2) == loc2)
+		{
+			ft_push_loc(list_a, loc2, list_b);
+			ft_rb(list_b, 0);
+		}
 
 		i++;
-	}
-	
+		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
+		loc2 = ft_find_b_loc_2(*list_a, data, -1, i);
+		fprintf(stderr, "ind 1 %d ind 2 %d BG vaut %d\n", loc1, loc2, find_b_gap2(*list_a, loc1, loc2));
+	// // 	
+	// //if (BLABLA)
+	// 	ind = 
+	// 	push
+	// 	si ind2 alors rra
+	// if (*list_a)
+	// 	(*list_a) = (*list_a)->next;
+	// }
+	// (*list_a) = tmp;
 }
