@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:00:55 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 15:48:48 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 17:08:29 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,27 +101,6 @@ void	ft_three(t_elem **list_a, t_data *data)
 	}
 }
 
-void	ft_three_r(t_elem **list_b, t_data *data)
-{
-	if (ft_is_sorted_r(*list_b))
-		return ;
-	while (!ft_is_sorted_r(*list_b))
-	{
-		if((*list_b)->val < (*list_b)->next->val && (*list_b)->val < (*list_b)->next->next->val)
-			ft_rb(list_b, data);
-		if((*list_b)->val < (*list_b)->next->val)
-			ft_sb(list_b, data);
-		if((*list_b)->next->val < (*list_b)->next->next->val)
-			ft_rrb(list_b, data);
-		else if (!ft_is_sorted_r(*list_b))
-		{
-			ft_rrb(list_b, data);
-			ft_sb(list_b, data);
-		}
-	}
-}
-
-
 void	ft_four(t_elem **list_a, t_elem **list_b, t_data *data)
 {
 		if (ft_is_sorted((*list_a)->next))
@@ -179,48 +158,6 @@ void	ft_five(t_elem **list_a, t_elem **list_b, t_data *data)
 	ft_pa(list_a, list_b, data);
 }
 
-
-void	ft_five_b(t_elem **list_a, t_elem **list_b, t_data *data)
-{
-	int		i;
-
-	i = 0;
-	if(ft_is_sorted(*list_b))
-		return ;
-	while (i < data->size)
-	{
-		if ((*list_b)->val > data->median)
-		{
-			ft_pa(list_a, list_b, 0);
-		}
-		else
-			ft_rb(list_b, 0);
-		i++;
-	}
-	// fprintf(stderr, "IS SORTED R ? %d \n", ft_is_sorted_r(*list_b));
-	ft_three_r(list_b, data);
-	if ((*list_a)->val > (*list_a)->next->val)
-		ft_sa(list_a, 0);
-	ft_pa(list_a, list_b, 0);
-	ft_pa(list_a, list_b, 0);
-	ft_pa(list_a, list_b, 0);
-}
-
-// void	ft_ten(t_elem **list_a, t_elem **list_b, t_data *data)
-// {
-// 	// fprintf(stderr, "hey");
-// 	if(ft_is_sorted(*list_a))
-// 		return ;
-// 	ft_sep_med(list_a, list_b, data);
-// 	data->size = data->ac / 2;
-// 	data->median = ft_median(*list_a, data->size);
-// 	// fprintf(stderr, "median vaut %d\n", data->median);
-// 	ft_five(list_a, list_b, data);
-// 	data->median = ft_median(*list_b, data->size);
-// 	// fprintf(stderr, "median vaut %d\n", data->median);
-// 	ft_five_b(list_a, list_b, data);
-// 	// ft_pb()
-// }
 void	ft_loop_ra(t_elem **list_a, int nb, t_data *data)
 {
 	int i;
@@ -379,13 +316,10 @@ int find_b_gap2(t_elem *list_a, int a, int b)
 		tmpb = b;
 	else
 		tmpb = ft_abs(size - b) + 1;
-	// fprintf(stderr, "size vaut %d a vaut %d, b vaut %d, temp a vaut %d et temp b vaut %d\n",size, a, b, tmpa, tmpb);
 	if (tmpa > tmpb)
 		return (b);
 	else
 		return (a);
-		
-	
 }
 
 int	ft_find_b_loc_1(t_elem *list_a, t_data *data, int sens, int i)
@@ -433,7 +367,6 @@ int	ft_find_b_loc_2(t_elem *list_a, t_data *data, int sens, int i)
 	{
 		if (list_a->ind <= data->size / 2 && list_a->ind > ((data->size / 2) - (data->thres * i)))
 		{
-			// fprintf(stderr, "LOC2 on rentre avec ind qui vaut %d j vaut %d\n", list_a->ind, j);
 			if (ft_b_gap(list_a, j, data) < gap)
 			{
 				gap = ft_b_gap(list_a, j, data);
@@ -443,19 +376,13 @@ int	ft_find_b_loc_2(t_elem *list_a, t_data *data, int sens, int i)
 		list_a = list_a->next;
 		j++;
 	}
-	// fprintf(stderr, "LOC VAUT %d\n", loc);
 	return (loc);
 }
 
 void	ft_push_loc(t_elem **list_a, int loc, t_elem **list_b, t_data *data)
 {
 	int size;
-	(void)list_b;
-	(void)loc;
-	(void)list_a;
 	size  = ft_lst_size(*list_a);
-	(void)size;
-	// ft_print_a_b(*list_a, *list_b);
 
 	if (loc >= size / 2)
 		ft_loop_rra(list_a, size - loc + 1, data);
@@ -479,7 +406,6 @@ int	ft_find_loc_2(t_elem **list_b, int index)
 		i++;
 	}
 	return (-1);
-	
 }
 
 void	ft_send_home(t_elem **list_a, t_elem **list_b, t_data *data)
@@ -493,7 +419,6 @@ void	ft_send_home(t_elem **list_a, t_elem **list_b, t_data *data)
 		loc_h = ft_find_loc_2(list_b, i);
 		while ((*list_b)->ind != i)
 		{
-			// fprintf(stderr, "ind vaut %d et i vaut %d\n", (*list_b)->ind, i);
 			if ((*list_b)->ind == i - 1)
 				ft_pa(list_a, list_b, data);
 			else if (loc_h <= ft_lst_size(*list_b) / 2)

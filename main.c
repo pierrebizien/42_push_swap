@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:00 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 15:57:07 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 17:37:05 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,61 @@ int	ft_len_tmp(char **tmp)
 	return (i);
 }
 
+int	ft_check_same(t_elem *list)
+{
+	t_elem *tmp;
+
+	tmp = list;
+	while (tmp)
+	{
+		list = tmp->next;
+		while (list)
+		{
+			if (list->val == tmp->val)
+				return (0);
+			list = list->next;
+		}
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+void	ft_free(t_elem *begin)
+{
+	t_elem *tmp;
+
+	tmp = begin;
+	while (begin)
+	{
+		tmp = begin->next;
+		free(begin);
+		begin = tmp;
+	}
+}
+
 t_elem	*ft_generate_a_l(char **av, int ac, t_data *data)
 {
 	t_elem	*begin;
 	t_elem	*tmp_l;
 	int 	i;
 	
+	if (ft_atoi(av[1]) == 3147483648)
+		return (NULL);
 	begin = ft_lst_new(ft_atoi(av[1]), 1);
 	tmp_l = begin;
 	i = 2;
 	while (i < ac)
 	{
+		if (ft_atoi(av[i]) == 3147483648)
+			return (ft_free(tmp_l), NULL);
 		begin->next = ft_lst_new(ft_atoi(av[i]), i);
 		begin = begin->next;
 		i++;
+	}
+	if (!ft_check_same(tmp_l))
+	{
+		ft_free(tmp_l);
+		return (NULL);
 	}
 	begin = NULL;
 	data->size = i;
@@ -52,6 +93,7 @@ t_elem	*ft_generate_b_l(void)
 	return (begin);
 }
 
+
 int main(int ac, char **av)
 {
 	t_data	data;
@@ -59,34 +101,37 @@ int main(int ac, char **av)
 	t_elem	*begin_b;
 	int		i;
 
-	begin_b = NULL;
-	data.info_b.count = 0;
-	data.ac = ac;
-	data.thres = 17;
-	data.hid = 0;
-	if (data.thres == 0)
-		data.thres = 1;
-	begin_a = ft_generate_a_l(av, ac, &data);
-	data.median = ft_median(begin_a, ac); 
-	data.size = ft_lst_size(begin_a);
-	ft_gen_index(&begin_a, &data);
+	if (ac == 1 || (ac == 2 && ft_atoi(av[1]) == 3147483648))
+		return (write(2, "Error\n", 6), -1);
 	if (ac == 2)
 		return (0);
+	begin_b = NULL;
+	data.info_b.count = 0;
+	data.hid = 0;
+	data.ac = ac;
+	begin_a = ft_generate_a_l(av, ac, &data);
+	if (!begin_a)
+		return (write(2, "Error\n", 6), -1);
+	data.median = ft_median(begin_a, ac);
+	data.size = ft_lst_size(begin_a);
+	ft_gen_index(&begin_a, &data);
+	if (ft_is_sorted(begin_a))
+		return (ft_free(begin_a), 0);
 	if(ac == 3)
-		return (ft_two(&begin_a, &data), 0);
+		return (ft_two(&begin_a, &data), ft_free(begin_a), 0);
 	if (ac == 4)
-		return (ft_three(&begin_a, &data), 0);
+		return (ft_three(&begin_a, &data), ft_free(begin_a), 0);
 	if (ac == 5)
-		return (ft_four(&begin_a, &begin_b, &data), 0); 
+		return (ft_four(&begin_a, &begin_b, &data), ft_free(begin_a), 0); 
 	if (ac == 6)
-		return (ft_five(&begin_a, &begin_b, &data), 0);
+		return (ft_five(&begin_a, &begin_b, &data), ft_free(begin_a), 0);
 	i = 2;
 	data.info_b.bcount = -1;
+	ft_free(begin_a);
 	while (i < 50)
 	{
 		data.thres = i;
 		begin_a = ft_generate_a_l(av, ac, &data);
-		data.median = ft_median(begin_a, ac); 
 		data.size = ft_lst_size(begin_a);
 		ft_gen_index(&begin_a, &data);
 		ft_hundred_hid(&begin_a, &begin_b, &data);
@@ -95,6 +140,7 @@ int main(int ac, char **av)
 			data.info_b.bcount = data.info_b.count;
 			data.info_b.bloc = i;
 		}
+		ft_free(begin_a);
 		data.info_b.count = 0;
 		i++;
 	}
@@ -104,6 +150,6 @@ int main(int ac, char **av)
 	data.size = ft_lst_size(begin_a);
 	ft_gen_index(&begin_a, &data);
 	ft_hundred(&begin_a, &begin_b, &data);
-	
+	ft_free(begin_a);
 	return (0);
 }

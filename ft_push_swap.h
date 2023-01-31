@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:58:32 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 15:45:36 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 17:11:04 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data);
 void	ft_gen_index(t_elem **list_a, t_data *data);
 void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data);
 void	ft_hundred_hid(t_elem **list_a, t_elem **list_b, t_data *data);
+int	ft_is_sorted(t_elem *list);
+
 
 
 void	ft_ten(t_elem **list_a, t_elem **list_b, t_data *data);

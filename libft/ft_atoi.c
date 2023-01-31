@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:02:43 by pbizien           #+#    #+#             */
-/*   Updated: 2022/11/08 10:02:04 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:52:56 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
 	int	i;
 	int	sign;
-	int	count;
+	long	count;
 
 	i = 0;
 	sign = 1;
@@ -32,11 +32,13 @@ int	ft_atoi(const char *nptr)
 			sign = -sign;
 		i++;
 	}
-	while ((nptr[i] <= '9') && (nptr[i] >= '0') && nptr[i])
+	while ((nptr[i] <= '9') && (nptr[i] >= '0') && nptr[i] && count <= INT_MAX)
 	{
 		count = count * 10 + (nptr[i] - '0');
 		i++;
 	}
+	if (nptr[i] && nptr[i] != ' ')
+		return (3147483648);
 	return (count * sign);
 }
 
