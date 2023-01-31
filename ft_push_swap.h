@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:58:32 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 13:55:37 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:16:48 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,24 @@
 #include "libft.h"
 #include <limits.h>
 
+typedef struct  s_best
+{
+    int bcount;
+    int count;
+    int bloc;
+    
+}               t_best;
+
+
 typedef struct  s_data
 {
     int size;
     int median;
     int med_ind;
     int quart;
-    int ac;
-    int thres;
+    int     ac;
+    int     thres;
+    t_best  info_b;
 }               t_data;
 
 typedef struct  s_elem
@@ -67,7 +77,7 @@ void	ft_two(t_elem **list_a);
 void	ft_three(t_elem **list_a);
 void	ft_four(t_elem **list_a, t_elem **list_b, t_data *data);
 void	ft_five(t_elem **list_a, t_elem **list_b, t_data *data);
-void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data);
+void	ft_5_to_19(t_elem **list_a, t_elem **list_b);
 void	ft_gen_index(t_elem **list_a, t_data *data);
 void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data);
 
