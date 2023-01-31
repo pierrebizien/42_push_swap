@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:46:13 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 15:35:21 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 19:54:02 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	ft_median(t_elem *list_a, int ac)
 {
-	t_elem *tmp;
+	t_elem	*tmp;
 	int		val;
 	int		step;
 	int		count;
-	
+
 	count = 0;
 	tmp = list_a;
 	step = INT_MIN;
@@ -36,35 +36,19 @@ int	ft_median(t_elem *list_a, int ac)
 		step = val;
 	}
 	if (ac % 2 == 1)
-		return(val + 1);
+		return (val + 1);
 	else
-		return(val);
+		return (val);
 }
-
-// void	ft_med_ind(t_elem *list_a, t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < data->ac - 1)
-// 	{
-// 		if (list_a->val == data->median)
-// 			data->med_ind = i + 1;
-// 		i++;
-// 		list_a = list_a->next;
-// 	}
-	
-// }
 
 int	ft_quart(t_elem *list_a, int ac)
 {
-	t_elem *tmp;
+	t_elem	*tmp;
 	int		val;
 	int		step;
 	int		count;
-	
+
 	count = 0;
-	// index = 0;
 	tmp = list_a;
 	step = INT_MIN;
 	val = list_a->val;
@@ -83,14 +67,13 @@ int	ft_quart(t_elem *list_a, int ac)
 		list_a = tmp;
 		step = val;
 	}
-	// fprintf(stderr, "val vaut %d\n", val);
 	return (val);
 }
 
 void	ft_set_index(t_elem **list_a, int index, int loc)
 {
-	int	i;
-	t_elem *tmp;
+	int		i;
+	t_elem	*tmp;
 
 	i = 0;
 	tmp = *list_a;
@@ -105,31 +88,30 @@ void	ft_set_index(t_elem **list_a, int index, int loc)
 
 void	ft_init_index(t_elem **list_a)
 {
-	t_elem *tmp;
-	
+	t_elem	*tmp;
+
 	tmp = *list_a;
 	while (*list_a)
 	{
 		(*list_a)->ind = -1;
-		*list_a = (*list_a)->next; 
+		*list_a = (*list_a)->next;
 	}
 	*list_a = tmp;
 }
 
-void	ft_gen_index(t_elem **list_a, t_data *data)
+void	ft_gen_index(t_elem **list_a, t_data *data, int i)
 {
 	long	val;
-	int i;
-	int	loc;
-	int index;
+	int		loc;
+	int		index;
 	t_elem	*tmp;
-	
-	index = 0;
+
+	index = -1;
 	ft_init_index(list_a);
 	tmp = *list_a;
-	while (index < data->ac - 1)
+	while (++index < data->ac - 1)
 	{
-		val  = (long)INT_MAX + 1;
+		val = (long)INT_MAX + 1;
 		i = 0;
 		while (*list_a)
 		{
@@ -143,6 +125,5 @@ void	ft_gen_index(t_elem **list_a, t_data *data)
 		}
 		*list_a = tmp;
 		ft_set_index(list_a, index + 1, loc);
-		index++;
 	}
 }

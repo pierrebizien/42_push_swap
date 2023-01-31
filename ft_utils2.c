@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 18:04:18 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 18:07:19 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 19:43:17 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_len_tmp(char **tmp)
 {
 	int	i;
-	
+
 	i = 0;
 	while (tmp[i])
 		i++;
@@ -24,7 +24,7 @@ int	ft_len_tmp(char **tmp)
 
 int	ft_check_same(t_elem *list)
 {
-	t_elem *tmp;
+	t_elem	*tmp;
 
 	tmp = list;
 	while (tmp)
@@ -43,7 +43,7 @@ int	ft_check_same(t_elem *list)
 
 void	ft_free(t_elem *begin)
 {
-	t_elem *tmp;
+	t_elem	*tmp;
 
 	tmp = begin;
 	while (begin)
@@ -58,8 +58,8 @@ t_elem	*ft_generate_a_l(char **av, int ac, t_data *data)
 {
 	t_elem	*begin;
 	t_elem	*tmp_l;
-	int 	i;
-	
+	int		i;
+
 	if (ft_atoi(av[1]) == 3147483648)
 		return (NULL);
 	begin = ft_lst_new(ft_atoi(av[1]), 1);
@@ -81,4 +81,17 @@ t_elem	*ft_generate_a_l(char **av, int ac, t_data *data)
 	begin = NULL;
 	data->size = i;
 	return (tmp_l);
+}
+
+int	ft_lst_size(t_elem *list_a)
+{
+	int	count;
+
+	count = 0;
+	while (list_a)
+	{
+		list_a = list_a->next;
+		count++;
+	}
+	return (count);
 }
