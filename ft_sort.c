@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:00:55 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 18:36:37 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:20:13 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,26 +245,26 @@ void	ft_loop_rb(t_elem **list_a, int nb)
 	}
 }
 
-void	ft_loop_rra(t_elem **list_a, int nb)
+void	ft_loop_rra(t_elem **list_a, int nb, int hid)
 {
 	int i;
 	
 	i = 0;
 	while (i < nb)
 	{
-		ft_rra(list_a, 0);
+		ft_rra(list_a, hid);
 		i++;
 	}
 }
 
-void	ft_loop_rrb(t_elem **list_a, int nb)
+void	ft_loop_rrb(t_elem **list_a, int nb, int hid)
 {
 	int i;
 	
 	i = 0;
 	while (i < nb)
 	{
-		ft_rra(list_a, 0);
+		ft_rra(list_a, hid);
 		i++;
 	}
 }
@@ -316,19 +316,16 @@ int		ft_find_loc(t_elem *list_a, int index)
 	return (loc1);
 }
 
-void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data)
+void	ft_5_to_19(t_elem **list_a, t_elem **list_b)
 {
 	int loc;
-	// int count_2;
 	int	index;
 
-	// count_2 = 0;
 	loc = 0;
 	index = 0;
 	while (ft_lst_size(*list_a) > 3)
 	{
 		loc = ft_find_loc(*list_a, index);
-		// fprintf(stderr, "LOC VAUT %d et COUNT VAUT %d et INDEX VAUT %d \n", loc, 5, index);
 		if (loc <= ft_lst_size(*list_a) / 2)
 		{
 			ft_loop_ra(list_a, loc);
@@ -336,20 +333,15 @@ void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data)
 		else
 			ft_loop_rra(list_a, ft_lst_size(*list_a) - loc);
 		ft_pb(list_a, list_b);
-		// ft_print_a_b(*list_a, *list_b);
-		// count_2++;
 		if (ft_lst_size(*list_b) > 1)
 		{
 			if ((*list_b)->val < (*list_b)->next->val && ft_abs((*list_b)->ind - (*list_b)->next->ind) == 1)
 				ft_sb(list_b, 0);
-			// count_2 = 0;
 		}
 		index++;
 	}
 	ft_three(list_a);
-	(void)data;
 	ft_loop_pa(list_a, list_b, ft_lst_size(*list_b));
-	// fprintf(stderr, "HEEEY");
 }
 
 int	ft_b_gap(t_elem *list_a, int j, t_data *data)
@@ -455,7 +447,7 @@ int	ft_find_b_loc_2(t_elem *list_a, t_data *data, int sens, int i)
 	return (loc);
 }
 
-void	ft_push_loc(t_elem **list_a, int loc, t_elem **list_b)
+void	ft_push_loc(t_elem **list_a, int loc, t_elem **list_b, int hid)
 {
 	int size;
 	(void)list_b;
@@ -509,31 +501,33 @@ void	ft_send_home(t_elem **list_a, t_elem **list_b, t_data *data)
 {
 	int	i;
 	int	loc_h;
-	int	loc_l;
-	int	j;
+	// int	loc_l;
 	
 	i = data->size;
-	while (i > 1)
+		// ft_print_a_b(*list_a, *list_b);
+	while (i >= 1)
 	{
-		j = 1;
-		ft_print_a_b(*list_a, *list_b);
 		loc_h = ft_find_loc_2(list_b, i);
-		loc_l = ft_find_loc_2(list_b, i - 1);
-		fprintf(stderr, "loc_h vaut %d et loc_l vaut %d\n", loc_h, loc_l);
-		while (j < loc_h)
+		// loc_l = ft_find_loc_2(list_b, i - 1);
+		while ((*list_b)->ind != i)
 		{
-			if (loc_h <= ft_lst_size(*list_b) / 2)
+			// fprintf(stderr, "i vaut %d\n", i);
+		// ft_print_a_b(*list_a, *list_b);
+		// ft_print_a_b(*list_a, *list_b);
+		// fprintf(stderr, "loc_h vaut %d et i vaut %d\n", loc_h, i);
+			if ((*list_b)->ind == i - 1)
+				ft_pa(list_a, list_b);
+			else if (loc_h <= ft_lst_size(*list_b) / 2)
 				ft_rb(list_b, 0);
 			else
 				ft_rrb(list_b, 0);
-			if ((*list_b)->ind == loc_l)
-				ft_pa(list_a, list_b);
-			j++;
 		}
-		ft_print_a_b(*list_a, *list_b);
 		ft_pa(list_a, list_b);
 		if ((*list_a)->next && (*list_a)->ind > (*list_a)->next->ind)
+		{
+			i--;
 			ft_sa(list_a, 0);
+		}
 		i--;
 	}
 }
@@ -551,18 +545,21 @@ void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data)
 	loc2 = 0;
 	while (loc1 != -1 || loc2 != -1)
 	{
+		
 		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
-		if (loc1 == -1 && i < (data->size / data->thres) / 2)
+		if (loc1 == -1 && i < ((data->size / data->thres) / 2) + 1)
 		{
+			// fprintf(stderr, "HEEEEEY\n");
 			i++;
 			loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
 		}
 		loc2 = ft_find_b_loc_2(*list_a, data, -1, j);
-		if (loc2 == -1 && j < (data->size / data->thres) / 2)
+		if (loc2 == -1 && j < ((data->size / data->thres) / 2) + 1)
 		{
 			j++;
 			loc2 = ft_find_b_loc_2(*list_a, data, -1, j);
 		}
+		// fprintf(stderr, "size vaut %d loc 1 vaut %d i vaut %d et loc 2 vaut %d et j vaut %d \n", (data->size / data->thres) / 2, loc1, i, loc2, j);
 		if (find_b_gap2(*list_a, loc1, loc2) == loc1)
 			ft_push_loc(list_a, loc1, list_b);
 		else if (find_b_gap2(*list_a, loc1, loc2) == loc2)
@@ -571,5 +568,46 @@ void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data)
 			ft_rb(list_b, 0);
 		}
 	}
+		// ft_print_a_b(*list_a, *list_b);
+	ft_send_home(list_a, list_b, data);
+}
+
+void	ft_hundred_hid(t_elem **list_a, t_elem **list_b, t_data *data)
+{
+	int	i;
+	int	j;
+	int	loc1;
+	int	loc2;
+
+	i = 1;
+	j = 1;
+	loc1 = 0;
+	loc2 = 0;
+	while (loc1 != -1 || loc2 != -1)
+	{
+		
+		loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
+		if (loc1 == -1 && i < ((data->size / data->thres) / 2) + 1)
+		{
+			// fprintf(stderr, "HEEEEEY\n");
+			i++;
+			loc1 = ft_find_b_loc_1(*list_a, data, 1, i);
+		}
+		loc2 = ft_find_b_loc_2(*list_a, data, -1, j);
+		if (loc2 == -1 && j < ((data->size / data->thres) / 2) + 1)
+		{
+			j++;
+			loc2 = ft_find_b_loc_2(*list_a, data, -1, j);
+		}
+		// fprintf(stderr, "size vaut %d loc 1 vaut %d i vaut %d et loc 2 vaut %d et j vaut %d \n", (data->size / data->thres) / 2, loc1, i, loc2, j);
+		if (find_b_gap2(*list_a, loc1, loc2) == loc1)
+			ft_push_loc(list_a, loc1, list_b);
+		else if (find_b_gap2(*list_a, loc1, loc2) == loc2)
+		{
+			ft_push_loc(list_a, loc2, list_b);
+			ft_rb(list_b, 0);
+		}
+	}
+		// ft_print_a_b(*list_a, *list_b);
 	ft_send_home(list_a, list_b, data);
 }
