@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:58:32 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 13:16:48 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 15:45:36 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct  s_data
     int     ac;
     int     thres;
     t_best  info_b;
+	int	hid;
 }               t_data;
 
 typedef struct  s_elem
@@ -55,17 +56,17 @@ int ft_find_best_min(t_elem *list_a);
 
 //---------------MOVEMENTS-----------------
 
-void	ft_pa(t_elem **list_a, t_elem **list_b);
-void	ft_pb(t_elem **list_a, t_elem **list_b);
-void    ft_sa(t_elem **list_a, int ss);
-void    ft_ss(t_elem **list_a, t_elem **list_b);
-void    ft_sb(t_elem **list_b, int ss);
-void	ft_ra(t_elem **list_a, int rr);
-void	ft_rb(t_elem **list_b, int rr);
-void	ft_rra(t_elem **list_a, int rrr);
-void	ft_rrb(t_elem **list_b, int rrr);
-void	ft_rrr(t_elem **list_a, t_elem **list_b);
-void	ft_loop_rra(t_elem **list_a, int nb);
+void	ft_pa(t_elem **list_a, t_elem **list_b, t_data *data);
+void	ft_pb(t_elem **list_a, t_elem **list_b, t_data *data);
+void    ft_sa(t_elem **list_a, t_data *data);
+void    ft_ss(t_elem **list_a, t_elem **list_b, t_data *data);
+void    ft_sb(t_elem **list_b, t_data *data);
+void	ft_ra(t_elem **list_a, t_data *data);
+void	ft_rb(t_elem **list_b, t_data *data);
+void	ft_rra(t_elem **list_a, t_data *data);
+void	ft_rrb(t_elem **list_b, t_data *data);
+void	ft_rrr(t_elem **list_a, t_elem **list_b, t_data *data);
+void	ft_loop_rra(t_elem **list_a, int nb, t_data *data);
 
 
 int	ft_median(t_elem *list_a, int ac);
@@ -73,13 +74,14 @@ void	ft_med_ind(t_elem *list_a, t_data *data);
 
 void ft_separate(t_elem **list_a, t_elem **list_b, t_data *data);
 
-void	ft_two(t_elem **list_a);
-void	ft_three(t_elem **list_a);
+void	ft_two(t_elem **list_a, t_data *data);
+void	ft_three(t_elem **list_a, t_data *data);
 void	ft_four(t_elem **list_a, t_elem **list_b, t_data *data);
 void	ft_five(t_elem **list_a, t_elem **list_b, t_data *data);
-void	ft_5_to_19(t_elem **list_a, t_elem **list_b);
+void	ft_5_to_19(t_elem **list_a, t_elem **list_b, t_data *data);
 void	ft_gen_index(t_elem **list_a, t_data *data);
 void	ft_hundred(t_elem **list_a, t_elem **list_b, t_data *data);
+void	ft_hundred_hid(t_elem **list_a, t_elem **list_b, t_data *data);
 
 
 void	ft_ten(t_elem **list_a, t_elem **list_b, t_data *data);
