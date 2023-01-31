@@ -6,13 +6,13 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:24:14 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 18:31:10 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 13:55:34 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void    ft_sa(t_elem **list_a, int ss)
+void    ft_sa(t_elem **list_a, t_data *data)
 {
     t_elem  *begin;
     int     tmp;
@@ -23,11 +23,13 @@ void    ft_sa(t_elem **list_a, int ss)
     tmp = begin->val;
     begin->val = begin->next->val;
     begin->next->val = tmp;	
-	if (ss == 0)
+	if (data->hid == 0)
 		ft_printf("sa\n");
+	else
+		data->info_b.count++;
 }
 
-void    ft_sb(t_elem **list_b, int ss)
+void    ft_sb(t_elem **list_b, t_data *data)
 {
     t_elem  *begin;
     int     tmp;
@@ -38,18 +40,23 @@ void    ft_sb(t_elem **list_b, int ss)
     tmp = begin->val;
     begin->val = begin->next->val;
     begin->next->val = tmp;
-	if (ss == 0)
+	if (data->hid == 0)
 		ft_printf("sb\n");
+	else
+		data->info_b.count++;
 }
 
-void    ft_ss(t_elem **list_a, t_elem **list_b)
+void    ft_ss(t_elem **list_a, t_elem **list_b, t_data *data)
 {
-    ft_sa(list_a, 1);
-    ft_sb(list_b, 1);
-	ft_printf("ss\n");
+    ft_sa(list_a, data);
+    ft_sb(list_b, data);
+	if (data->hid == 0)
+		ft_printf("ss\n");
+	else
+		data->info_b.count++;
 }
 
-void	ft_pb(t_elem **list_a, t_elem **list_b)
+void	ft_pb(t_elem **list_a, t_elem **list_b, t_data *data)
 {
     t_elem	*tmp_a;
     
@@ -62,10 +69,13 @@ void	ft_pb(t_elem **list_a, t_elem **list_b)
 		(*list_a)->next = NULL;
 	*list_b = *list_a;
 	*list_a = tmp_a;
-	ft_printf("pb\n");
+	if (data->hid == 0)
+		ft_printf("pb\n");
+	else
+		data->info_b.count++;
 }
 
-void	ft_pa(t_elem **list_a, t_elem **list_b)
+void	ft_pa(t_elem **list_a, t_elem **list_b, t_data *data)
 {
     t_elem	*tmp_a;
     
@@ -78,5 +88,8 @@ void	ft_pa(t_elem **list_a, t_elem **list_b)
 		(*list_b)->next = NULL;
 	*list_a = *list_b;
 	*list_b = tmp_a;
-	ft_printf("pa\n");
+	if (data->hid == 0)
+		ft_printf("pa\n");
+	else
+		data->info_b.count++;
 }

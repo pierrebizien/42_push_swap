@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:00 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 13:14:16 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 15:57:07 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,53 @@ int main(int ac, char **av)
 	t_data	data;
 	t_elem	*begin_a;
 	t_elem	*begin_b;
+	int		i;
 
 	begin_b = NULL;
+	data.info_b.count = 0;
 	data.ac = ac;
-	data.thres = 25;
+	data.thres = 17;
+	data.hid = 0;
 	if (data.thres == 0)
 		data.thres = 1;
 	begin_a = ft_generate_a_l(av, ac, &data);
 	data.median = ft_median(begin_a, ac); 
 	data.size = ft_lst_size(begin_a);
 	ft_gen_index(&begin_a, &data);
+	if (ac == 2)
+		return (0);
 	if(ac == 3)
-		return (ft_two(&begin_a), 0);
+		return (ft_two(&begin_a, &data), 0);
 	if (ac == 4)
-		return (ft_three(&begin_a), 0);
+		return (ft_three(&begin_a, &data), 0);
 	if (ac == 5)
 		return (ft_four(&begin_a, &begin_b, &data), 0); 
 	if (ac == 6)
 		return (ft_five(&begin_a, &begin_b, &data), 0);
-	if (ac < 500)
-		return (ft_hundred(&begin_a, &begin_b, &data),  0);
-	
+	i = 2;
+	data.info_b.bcount = -1;
+	while (i < 50)
+	{
+		data.thres = i;
+		begin_a = ft_generate_a_l(av, ac, &data);
+		data.median = ft_median(begin_a, ac); 
+		data.size = ft_lst_size(begin_a);
+		ft_gen_index(&begin_a, &data);
+		ft_hundred_hid(&begin_a, &begin_b, &data);
+		if (data.info_b.count < data.info_b.bcount || data.info_b.bcount == -1)
+		{
+			data.info_b.bcount = data.info_b.count;
+			data.info_b.bloc = i;
+		}
+		data.info_b.count = 0;
+		i++;
+	}
+	data.thres = data.info_b.bloc;
+	begin_a = ft_generate_a_l(av, ac, &data);
+	data.median = ft_median(begin_a, ac); 
+	data.size = ft_lst_size(begin_a);
+	ft_gen_index(&begin_a, &data);
 	ft_hundred(&begin_a, &begin_b, &data);
+	
 	return (0);
 }

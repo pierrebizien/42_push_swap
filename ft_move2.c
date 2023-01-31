@@ -6,13 +6,13 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:37:05 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/30 15:54:35 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 14:11:06 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-void	ft_ra(t_elem **list_a, int rr)
+void	ft_ra(t_elem **list_a, t_data *data)
 {
 	t_elem	*last;
 	t_elem	*tmp;
@@ -26,11 +26,13 @@ void	ft_ra(t_elem **list_a, int rr)
 	last->next = (*list_a);
 	(*list_a)->next = NULL;
 	(*list_a) = tmp;
-	if (rr == 0)
+	if (data->hid == 0)
 		ft_printf("ra\n");
+	else
+		data->info_b.count++;
 }
 
-void	ft_rb(t_elem **list_b, int rr)
+void	ft_rb(t_elem **list_b, t_data *data)
 {
 	t_elem	*last;
 	t_elem	*tmp;
@@ -46,18 +48,20 @@ void	ft_rb(t_elem **list_b, int rr)
 	last->next = (*list_b);
 	(*list_b)->next = NULL;
 	(*list_b) = tmp;
-	if (rr == 0)
+	if (data->hid == 0)
 		ft_printf("rb\n");
+	else
+		data->info_b.count++;
 }
 
-void	ft_rr(t_elem **list_a, t_elem **list_b)
+void	ft_rr(t_elem **list_a, t_elem **list_b, t_data *data)
 {
-	ft_ra(list_a, 1);
-	ft_rb(list_b, 1);
+	ft_ra(list_a, data);
+	ft_rb(list_b, data);
 	ft_printf("rr\n");
 }
 
-void	ft_rra(t_elem **list_a, int rrr)
+void	ft_rra(t_elem **list_a, t_data *data)
 {
 	t_elem	*last;
 	t_elem *tmp;
@@ -74,11 +78,13 @@ void	ft_rra(t_elem **list_a, int rrr)
 	last->next = *list_a;
 	tmp-> next = NULL;
 	*list_a = last;
-	if (rrr == 0)
+	if (data->hid == 0)
 		ft_printf("rra\n");
+	else
+		data->info_b.count++;
 }
 
-void	ft_rrb(t_elem **list_b, int rrr)
+void	ft_rrb(t_elem **list_b, t_data *data)
 {
 	t_elem	*last;
 	t_elem *tmp;
@@ -93,13 +99,20 @@ void	ft_rrb(t_elem **list_b, int rrr)
 	last->next = *list_b;
 	tmp-> next = NULL;
 	*list_b = last;
-	if (rrr == 0)
+	if (data->hid == 0)
 		ft_printf("rrb\n");
+	else
+		data->info_b.count++;
 }
 
-void	ft_rrr(t_elem **list_a, t_elem **list_b)
+void	ft_rrr(t_elem **list_a, t_elem **list_b, t_data *data)
 {
-	ft_rra(list_a, 1);
-	ft_rra(list_b, 1);
-	ft_printf("rrr\n");
+	ft_rra(list_a, data);
+	ft_rra(list_b, data);
+	if (data->hid == 0)
+		ft_printf("rrr\n");
+	else
+		data->info_b.count++;
+		
+	
 }
