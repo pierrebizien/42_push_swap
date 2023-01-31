@@ -1,4 +1,4 @@
-SRCS = ft_utils.c ft_sort.c ft_algo.c ft_init.c ft_move2.c main.c gnl/get_next_line.c gnl/get_next_line_utils.c ft_move.c ft_lst.c ft_print_list.c 
+SRCS = ft_move3.c ft_utils2.c ft_utils.c ft_sort.c ft_algo.c ft_init.c ft_move2.c main.c gnl/get_next_line.c gnl/get_next_line_utils.c ft_move.c ft_lst.c ft_print_list.c 
 
 NAME = push_swap
 
@@ -31,3 +31,5 @@ fclean:
 	$(MAKE) fclean -C ft_printf
 
 re: fclean all
+
+.PHONY: all re clean fclean
