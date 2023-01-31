@@ -6,32 +6,12 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:00:55 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 17:08:29 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 18:48:16 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-
-// void	ft_sep_med(t_elem **list_a, t_elem **list_b, t_data *data)
-// {
-// 	int i;
-// 	int count;
-	
-// 	i = 0;
-// 	count = 0;
-// 	while (i < data->size && count < (data->size / 2))
-// 	{
-// 		if ((*list_a)->val < data->median)
-// 		{
-// 			ft_pb(list_a, list_b, );
-// 			count++;
-// 		}
-// 		else
-// 			ft_ra(list_a, 0);
-// 		i++;
-// 	}
-// }
 void	ft_two(t_elem **list_a, t_data *data)
 {
 	if ((*list_a)->val < (*list_a)->next->val)
@@ -50,25 +30,6 @@ int	ft_is_sorted(t_elem *list)
 	while (list)
 	{
 		if (tmp->val < list->val)
-		{
-			tmp = list;
-			list = list->next;
-		}
-		else
-			return (0);
-	}
-	return (1);
-}
-
-int	ft_is_sorted_r(t_elem *list)
-{
-	t_elem *tmp;
-
-	tmp  = list;
-	list = list->next;
-	while (list)
-	{
-		if (tmp->val > list->val)
 		{
 			tmp = list;
 			list = list->next;

@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 17:02:43 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/31 16:52:56 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 18:41:38 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 long	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	sign;
+	int		i;
+	int		sign;
 	long	count;
 
 	i = 0;
@@ -37,7 +37,8 @@ long	ft_atoi(const char *nptr)
 		count = count * 10 + (nptr[i] - '0');
 		i++;
 	}
-	if (nptr[i] && nptr[i] != ' ')
+	if (((count >= (long)INT_MAX + 1 && sign == -1) || \
+		(count >= (long)INT_MAX && sign == 1)) || (nptr[i] && nptr[i] != ' '))
 		return (3147483648);
 	return (count * sign);
 }
