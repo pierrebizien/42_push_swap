@@ -6,7 +6,7 @@
 /*   By: pbizien <pbizien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 11:45:48 by pbizien           #+#    #+#             */
-/*   Updated: 2023/01/24 13:52:18 by pbizien          ###   ########.fr       */
+/*   Updated: 2023/01/31 19:42:31 by pbizien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ t_elem	*ft_lst_new(int content, int index)
 	if (!ptr)
 		return (NULL);
 	ptr->val = content;
-    ptr->ind = index;
+	ptr->ind = index;
 	return (ptr);
 }
 
-t_elem  *ft_lst_new_empty(void)
+t_elem	*ft_lst_new_empty(void)
 {
-    t_elem	*ptr;
+	t_elem	*ptr;
 
 	ptr = ft_calloc(1, sizeof(t_elem));
 	if (!ptr)
 		return (NULL);
-    ptr->ind = 0;
+	ptr->ind = 0;
 	return (ptr);
 }
